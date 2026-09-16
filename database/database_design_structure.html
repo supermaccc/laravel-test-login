@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Design & Structure - User Management System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Prompt', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            font-size: 13px;
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .page {
+            page-break-after: always;
+            padding-bottom: 20px;
+        }
+        .page:last-child {
+            page-break-after: avoid;
+        }
+        .header {
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .title-area h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        .title-area p {
+            font-size: 13px;
+            color: #0284c7;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .doc-meta {
+            text-align: right;
+            font-size: 11px;
+            color: #64748b;
+        }
+        .doc-meta strong {
+            color: #334155;
+        }
+
+        /* Section Styling */
+        h2 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid #0284c7;
+            padding-left: 8px;
+        }
+        p, li {
+            color: #334155;
+            font-size: 12px;
+        }
+
+        /* Cards and Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .info-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        .info-box-title {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #64748b;
+            letter-spacing: 0.5px;
+        }
+        .info-box-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-top: 2px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            font-size: 11.5px;
+        }
+        th, td {
+            padding: 7px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9.5px;
+            font-weight: 600;
+            line-height: 1;
+        }
+        .badge-pk {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .badge-fk {
+            background-color: #e0e7ff;
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+        }
+        .badge-unique {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+        .badge-required {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        .badge-nullable {
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ER Diagram Visual Box */
+        .erd-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .erd-box {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .erd-box-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 6px 10px;
+            font-weight: 600;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .erd-box-header.highlight {
+            background: #0284c7;
+        }
+        .erd-item {
+            padding: 4px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5px;
+        }
+        .erd-item:last-child {
+            border-bottom: none;
+        }
+        .erd-col-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .erd-col-type {
+            font-family: 'JetBrains Mono', monospace;
+            color: #64748b;
+        }
+
+        /* Note Box */
+        .callout {
+            background-color: #f0f9ff;
+            border-left: 3px solid #0284c7;
+            padding: 8px 12px;
+            border-radius: 0 6px 6px 0;
+            margin: 10px 0;
+            font-size: 11.5px;
+            color: #0369a1;
+        }
+        .callout strong {
+            color: #075985;
+        }
+        .footer-note {
+            margin-top: 15px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: Overview, Architecture & Core Tables -->
+    <div class="page">
+        <div class="header">
+            <div class="title-area">
+                <h1>Database Design & Structure Specification</h1>
+                <p>ระบบจัดการข้อมูลผู้ใช้งาน (User Management System) &bull; PHP Laravel</p>
+            </div>
+            <div class="doc-meta">
+                <div>Document: <strong>DB-SPEC-v1.0</strong></div>
+                <div>Date: <strong>16 กันยายน 2026</strong></div>
+                <div>Framework: <strong>Laravel 12.x / PHP 8.2+</strong></div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-box-title">Database Engine</div>
+                <div class="info-box-value">SQLite / MySQL 8.x</div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Authentication Driver</div>
+                <div class="info-box-value">Laravel Auth (Session)</div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Password Hashing</div>
+                <div class="info-box-value">Bcrypt (Rounds: 12)</div>
+            </div>
+        </div>
+
+        <h2>1. ภาพรวมสถาปัตยกรรมฐานข้อมูล (Database Architecture & ERD)</h2>
+        <p style="margin-bottom: 10px;">
+            ระบบฐานข้อมูลถูกออกแบบตามโครงสร้างมาตรฐานของ Laravel Framework เพื่อรองรับการทำ <strong>User Management (CRUD)</strong>, <strong>Session Authentication</strong>, และความปลอดภัยในการจัดเก็บรหัสผ่าน (Password Hashing)
+        </p>
+
+        <!-- ERD Representation Grid -->
+        <div class="erd-container">
+            <!-- USERS TABLE ERD -->
+            <div class="erd-box">
+                <div class="erd-box-header highlight">
+                    <span>users (ตารางข้อมูลผู้ใช้งานหลัก)</span>
+                    <span style="font-size: 9px; background: rgba(255,255,255,0.2); padding: 2px 4px; border-radius: 3px;">Primary Entity</span>
+                </div>
+                <div class="erd-item"><span class="erd-col-name">🔑 id</span><span class="erd-col-type">BIGINT (PK)</span></div>
+                <div class="erd-item"><span class="erd-col-name">name</span><span class="erd-col-type">VARCHAR(255)</span></div>
+                <div class="erd-item"><span class="erd-col-name">⚡ email</span><span class="erd-col-type">VARCHAR(255) (UNIQUE)</span></div>
+                <div class="erd-item"><span class="erd-col-name">password</span><span class="erd-col-type">VARCHAR(255) (HASH)</span></div>
+                <div class="erd-item"><span class="erd-col-name">email_verified_at</span><span class="erd-col-type">DATETIME (NULL)</span></div>
+                <div class="erd-item"><span class="erd-col-name">remember_token</span><span class="erd-col-type">VARCHAR(100)</span></div>
+                <div class="erd-item"><span class="erd-col-name">created_at / updated_at</span><span class="erd-col-type">DATETIME</span></div>
+            </div>
+
+            <!-- SESSIONS TABLE ERD -->
+            <div class="erd-box">
+                <div class="erd-box-header">
+                    <span>sessions (ตารางจัดเก็บเซสชัน)</span>
+                    <span style="font-size: 9px; background: rgba(255,255,255,0.2); padding: 2px 4px; border-radius: 3px;">Auth Tracking</span>
+                </div>
+                <div class="erd-item"><span class="erd-col-name">🔑 id</span><span class="erd-col-type">VARCHAR(255) (PK)</span></div>
+                <div class="erd-item"><span class="erd-col-name">🔗 user_id</span><span class="erd-col-type">BIGINT (FK -> users.id)</span></div>
+                <div class="erd-item"><span class="erd-col-name">ip_address</span><span class="erd-col-type">VARCHAR(45)</span></div>
+                <div class="erd-item"><span class="erd-col-name">user_agent</span><span class="erd-col-type">TEXT</span></div>
+                <div class="erd-item"><span class="erd-col-name">payload</span><span class="erd-col-type">LONGTEXT</span></div>
+                <div class="erd-item"><span class="erd-col-name">last_activity</span><span class="erd-col-type">INTEGER (INDEX)</span></div>
+            </div>
+        </div>
+
+        <h2>2. รายละเอียดโครงสร้างตารางผู้ใช้งาน (Table: `users`)</h2>
+        <p>ตารางหลักสำหรับจัดเก็บข้อมูลผู้ใช้งานในระบบ เพื่อรองรับฟังก์ชัน Login, Dashboard, จัดการผู้ใช้ (CRUD) และแก้ไขโปรไฟล์</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Constraints & Keys</th>
+                    <th>Default</th>
+                    <th>คำอธิบาย (Description)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-mono"><strong>id</strong></td>
+                    <td class="font-mono">BIGINT / INTEGER</td>
+                    <td><span class="badge badge-pk">PRIMARY KEY</span> <span class="badge badge-required">AUTO_INCREMENT</span></td>
+                    <td class="font-mono">-</td>
+                    <td>รหัสประจำตัวผู้ใช้งาน (Primary Key)</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>name</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-required">NOT NULL</span></td>
+                    <td class="font-mono">-</td>
+                    <td>ชื่อ-นามสกุลของผู้ใช้งาน</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>email</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-unique">UNIQUE INDEX</span> <span class="badge badge-required">NOT NULL</span></td>
+                    <td class="font-mono">-</td>
+                    <td>อีเมลสำหรับใช้เข้าสู่ระบบ (ห้ามซ้ำ)</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>email_verified_at</strong></td>
+                    <td class="font-mono">DATETIME / TIMESTAMP</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td class="font-mono">NULL</td>
+                    <td>วันเวลาที่ทำการยืนยันอีเมล</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>password</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-required">NOT NULL</span></td>
+                    <td class="font-mono">-</td>
+                    <td>รหัสผ่านที่เข้ารหัสทางเดียวด้วย Bcrypt Hashed</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>remember_token</strong></td>
+                    <td class="font-mono">VARCHAR(100)</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td class="font-mono">NULL</td>
+                    <td>Token สุ่มสำหรับระบบ "จดจำการเข้าสู่ระบบ"</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>created_at</strong></td>
+                    <td class="font-mono">DATETIME / TIMESTAMP</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td class="font-mono">CURRENT_TIMESTAMP</td>
+                    <td>วันเวลาที่สร้างรายการผู้ใช้</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>updated_at</strong></td>
+                    <td class="font-mono">DATETIME / TIMESTAMP</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td class="font-mono">CURRENT_TIMESTAMP</td>
+                    <td>วันเวลาที่แก้ไขข้อมูลล่าสุด</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout">
+            <strong>🔒 ความปลอดภัยของรหัสผ่าน:</strong> ทุกรหัสผ่านในระบบถูก Hash ด้วยอัลกอริทึม Bcrypt ผ่าน <code>Hash::make()</code> และ Eloquent Casts <code>'password' =&gt; 'hashed'</code> ทำให้ไม่มีการจัดเก็บ Plain Text ในฐานข้อมูลเด็ดขาด
+        </div>
+    </div>
+
+    <!-- PAGE 2: Supporting Tables, Seed Data, and DDL Script -->
+    <div class="page">
+        <div class="header">
+            <div class="title-area">
+                <h1>Database Design & Structure Specification</h1>
+                <p>ระบบจัดการข้อมูลผู้ใช้งาน (User Management System) &bull; PHP Laravel</p>
+            </div>
+            <div class="doc-meta">
+                <div>Page: <strong>2 of 2</strong></div>
+                <div>Status: <strong>Active & Verified</strong></div>
+            </div>
+        </div>
+
+        <h2>3. ตารางสำหรับระบบความปลอดภัยและเซสชัน (Supporting Tables)</h2>
+
+        <!-- Sessions Table -->
+        <p style="font-weight: 600; color: #0f172a; margin-top: 6px;">3.1 ตาราง `sessions` (Session Management)</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Key / Index</th>
+                    <th>คำอธิบาย (Description)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-mono"><strong>id</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-pk">PRIMARY KEY</span></td>
+                    <td>Session Token ID เฉพาะของแต่ละการเชื่อมต่อ</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>user_id</strong></td>
+                    <td class="font-mono">BIGINT / INTEGER</td>
+                    <td><span class="badge badge-fk">INDEX (FOREIGN KEY)</span></td>
+                    <td>รหัสของผู้ใช้ที่ล็อกอินอยู่ (เชื่อมโยงกับ <code>users.id</code>)</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>ip_address</strong></td>
+                    <td class="font-mono">VARCHAR(45)</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td>หมายเลข IP Address ของผู้ใช้งาน</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>user_agent</strong></td>
+                    <td class="font-mono">TEXT</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td>ข้อมูล Browser และระบบปฏิบัติการของผู้ใช้งาน</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>payload</strong></td>
+                    <td class="font-mono">LONGTEXT</td>
+                    <td><span class="badge badge-required">NOT NULL</span></td>
+                    <td>ข้อมูล Serialized Session Payload (เข้ารหัส)</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>last_activity</strong></td>
+                    <td class="font-mono">INTEGER</td>
+                    <td><span class="badge badge-unique">INDEX</span></td>
+                    <td>Unix Timestamp ของการใช้งานล่าสุด สำหรับหมดอายุ Session</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Password Reset Table -->
+        <p style="font-weight: 600; color: #0f172a; margin-top: 10px;">3.2 ตาราง `password_reset_tokens` (Password Recovery)</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Key</th>
+                    <th>คำอธิบาย</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-mono"><strong>email</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-pk">PRIMARY KEY</span></td>
+                    <td>อีเมลผู้ใช้งานที่ร้องขอการรีเซ็ตรหัสผ่าน</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>token</strong></td>
+                    <td class="font-mono">VARCHAR(255)</td>
+                    <td><span class="badge badge-required">NOT NULL</span></td>
+                    <td>Token เข้ารหัสสำหรับยืนยันสิทธิ์การรีเซ็ตรหัสผ่าน</td>
+                </tr>
+                <tr>
+                    <td class="font-mono"><strong>created_at</strong></td>
+                    <td class="font-mono">DATETIME</td>
+                    <td><span class="badge badge-nullable">NULLABLE</span></td>
+                    <td>วันเวลาที่สร้าง Token สำหรับกำหนดเวลาหมดอายุ</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. ข้อมูลเริ่มต้นและบัญชีทดสอบระบบ (Database Seeding)</h2>
+        <p>ข้อมูลที่ถูกบรรจุลงฐานข้อมูลอัตโนมัติเมื่อรันคำสั่ง <code>php artisan migrate --seed</code>:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ชื่อบัญชี (Name)</th>
+                    <th>อีเมล (Email)</th>
+                    <th>รหัสผ่านเริ่มต้น (Plaintext)</th>
+                    <th>สถานะ (Role / Status)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #f0fdf4;">
+                    <td><strong>Admin User</strong></td>
+                    <td class="font-mono"><strong>admin@example.com</strong></td>
+                    <td class="font-mono"><strong>password123</strong></td>
+                    <td><span class="badge" style="background:#dcfce7; color:#166534;">Default Administrator</span></td>
+                </tr>
+                <tr>
+                    <td>Margarita Blanda (และตัวอย่าง 9 รายการ)</td>
+                    <td class="font-mono">stanton.tina@example.net</td>
+                    <td class="font-mono">password</td>
+                    <td><span class="badge" style="background:#f1f5f9; color:#475569;">Mock User</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>5. คำสั่ง DDL สรุป (Standard MySQL Schema)</h2>
+        <pre style="background: #0f172a; color: #f8fafc; padding: 10px 12px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.4; overflow-x: auto;">
+CREATE TABLE `users` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `email_verified_at` TIMESTAMP NULL DEFAULT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `remember_token` VARCHAR(100) DEFAULT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+        </pre>
+
+        <div class="footer-note">
+            Database Design & Structure Document &bull; Laravel User Management System &bull; Generated Automatically
+        </div>
+    </div>
+
+</body>
+</html>
