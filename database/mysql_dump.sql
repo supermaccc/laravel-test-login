@@ -1,6 +1,6 @@
--- MySQL Database Dump
+-- MySQL Database Dump (Latest)
 -- Project: Laravel User Management System
--- Generated: 2026-09-16
+-- Generated: 2026-09-16 11:40:00
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -23,19 +23,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
--- Records of users
+-- Records of users (Latest)
 -- ----------------------------
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin User', 'admin@example.com', 'admin', '2026-09-16 03:57:04', '$2y$12$bqGcjvb5E8LQgn6Cpfjcou6Dr0RiztEdQjBDCJxTsjISfoIqjxgJy', 'e3rMwr6QrOvghLzVIqvPvyVHoZyHWBlM6ZoLUAXhwEA2KAwHfb8LGRfjnSAd', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(2, 'Margarita Blanda', 'stanton.tina@example.net', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'S0Qq7CrzP6', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(3, 'Alexie Wehner', 'jessy.flatley@example.org', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'Pw0UlVr8eQ', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(4, 'Claudia O\'Hara', 'margaret.hickle@example.com', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'QWWCVJos4j', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(5, 'Vallie Haag', 'jaeden33@example.com', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'dWS7h0g9AB', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(6, 'Saul Hills I', 'eheaney@example.com', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'tmhgyf8X8e', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(7, 'Linnea Bernhard IV', 'izabella.rodriguez@example.com', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', '7HJRfgaUxV', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(8, 'Cora Lind', 'tillman.idell@example.com', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'AmDKbEnAIP', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(9, 'Alexanne Marquardt III', 'winona.braun@example.net', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', 'e6iCfJYTR3', '2026-09-16 03:57:05', '2026-09-16 03:57:05'),
-(10, 'Cristobal Daniel', 'phoebe55@example.org', 'user', '2026-09-16 03:57:05', '$2y$12$qGj5pErEYk6aadGv.RcBKuxi0lyvcdHbPKqSAv9It0gezt4P4KeDe', '3GLbk46VWz', '2026-09-16 03:57:05', '2026-09-16 03:57:05');
+(1, 'Admin User', 'admin@example.com', 'admin', '2026-09-16 04:19:44', '$2y$12$3Ednv5aO6aMkX..9D0vmQe.uzgqmQUGd4uUP1F/MTLY/4Q2gCwMxq', 'X72c53DXaz9loIUDX43RIPThJqMWQ5tDwV9TsOfJ6bOkJPFtJAfD06KN9hFO', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(2, 'Bernadine Predovic', 'ejones@example.net', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 'ZkkvEEdKfD', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(3, 'Jackeline Balistreri V', 'helena89@example.com', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', '5yxsWjVCYr', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(4, 'Miss Jennyfer Ferry I', 'francisco.roob@example.com', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', '04xRldtUCU', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(5, 'Lulu Roob', 'theodora56@example.org', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 'qJ9GiHPher', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(6, 'Filomena Crona', 'jfunk@example.net', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 's6UcxJ8YUP', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(7, 'Dortha Hilpert', 'katheryn.lueilwitz@example.org', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 'YlpRC7QB8Z', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(8, 'Corene Kshlerin Sr.', 'felton25@example.org', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 'lOYIrskXE1', '2026-09-16 04:19:45', '2026-09-16 04:19:45'),
+(10, 'Enrique Croner', 'yhyatt@example.test', 'user', '2026-09-16 04:19:45', '$2y$12$dsaIf//8Y.d5dRnNnqJAK.SqORUqCRJ2GHnZcmaySdMWFPKbXpsYq', 'B3hpU727rk', '2026-09-16 04:19:45', '2026-09-16 04:25:18'),
+(11, 'ศุภโชติ ชมชื่น', 'mac_test@gmail.com', 'user', NULL, '$2y$12$LXJsGq/DW787qOi/erHAxu/AdKciFEx688Viy147y/f9KgX.LGNZ2', 'r9asLSKSMeyFkonZx8yj1qmUcbMZV7gBLw7fIQOm1OVu7eRu5VZU5t95uSnr', '2026-09-16 04:22:27', '2026-09-16 04:22:27'),
+(12, 'user02', 'user02@gmail.com', 'user', NULL, '$2y$12$5Qjqu3ecKIwG6BhHP6v.venycozKdZDu1u7tI.1zW4Snvkn0LPTk2', NULL, '2026-09-16 04:37:41', '2026-09-16 04:38:33');
 
 -- ----------------------------
 -- Table structure for sessions
